@@ -17,18 +17,18 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Flipper"))
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Flipper")) //Interaction Mur/Palettes
         {
             // Si la balle touche un mur ou une palette, inversez sa direction verticale
             Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity, collision.contacts[0].normal);
             rb.velocity = reflectedVelocity;
         }
-        else if (collision.gameObject.CompareTag("Ejector"))
+        else if (collision.gameObject.CompareTag("Ejector")) //Interaction Ejector
         {
             // Si la balle touche un cercle d'éjection, lui donner une force d'éjection
             rb.velocity = (transform.position - collision.transform.position).normalized * speed * EjectorSpeed;
         }
-        else if (collision.gameObject.CompareTag("Target"))
+        else if (collision.gameObject.CompareTag("Target")) //Interaction balles score
         {
             // Si la balle touche une cible, détruisez la cible
             Destroy(collision.gameObject);
