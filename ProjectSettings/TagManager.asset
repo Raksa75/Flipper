@@ -9,6 +9,7 @@ TagManager:
   - Ejector
   - Flipper
   - Ball
+  - DeathZone
   layers:
   - Default
   - TransparentFX
