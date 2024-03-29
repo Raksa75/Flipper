@@ -5,14 +5,23 @@ public class Ball : MonoBehaviour
     public float speed = 10f; // Vitesse initiale de la balle
     public float ejectorSpeed = 2f; // Vitesse d'éjection de l'éjecteur
 
+    public int ejectorPoints = 100; // Points gagnés en touchant un ejector
+    public int targetPoints = 50; // Points gagnés en touchant une cible
+
     private Rigidbody2D rb;
     private bool isTouchingFlipper = false; // Indique si la balle est en contact avec les palettes
+
+    // Score de la balle
+    public int Score { get; private set; }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         // Appliquer une force initiale à la balle pour la faire bouger
         // rb.velocity = Vector2.up * speed;
+
+        // Initialiser le score à zéro
+        Score = 0;
     }
 
     void Update()
@@ -43,11 +52,17 @@ public class Ball : MonoBehaviour
         {
             // Si la balle touche un cercle d'éjection, lui donner une force d'éjection
             rb.velocity = (transform.position - collision.transform.position).normalized * speed * ejectorSpeed;
+
+            // Augmenter le score
+            Score += ejectorPoints; // Ajouter les points d'ejector
         }
         else if (collision.gameObject.CompareTag("Target")) // Interaction avec les cibles
         {
             // Détruire la cible
             Destroy(collision.gameObject);
+
+            // Augmenter le score
+            Score += targetPoints; // Ajouter les points de cible
         }
     }
 
