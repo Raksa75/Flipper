@@ -52,10 +52,5 @@ public class FlipperController : MonoBehaviour
     void Flip()
     {
         isFlipping = true;
-        if (ball != null)
-        {
-            // Appliquer une force à la balle dans la direction appropriée (vers le haut dans cet exemple)
-            //ball.AddForce(Vector2.up * flipperStrength);
-        }
     }
 }
