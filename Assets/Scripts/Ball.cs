@@ -21,7 +21,7 @@ public class Ball : MonoBehaviour
         {
             // Si la touche espace est enfoncée et que la balle est en contact avec les palettes,
             // appliquer une force d'éjection vers le haut
-            rb.velocity += Vector2.up * ejectorSpeed;
+            rb.velocity += Vector2.up * speed * ejectorSpeed;
         }
     }
 
