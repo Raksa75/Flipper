@@ -1,15 +1,19 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ball : MonoBehaviour
 {
     public float speed = 10f; // Vitesse initiale de la balle
     public float ejectorSpeed = 2f; // Vitesse d'éjection de l'éjecteur
 
+    public int initialLives = 3; // Nombre de vies initial
+    public Transform respawnPoint; // Point de réapparition de la balle
     public int ejectorPoints = 100; // Points gagnés en touchant un ejector
     public int targetPoints = 50; // Points gagnés en touchant une cible
 
     private Rigidbody2D rb;
     private bool isTouchingFlipper = false; // Indique si la balle est en contact avec les palettes
+    public int lives; // Nombre de vies restantes
 
     // Score de la balle
     public int Score { get; private set; }
@@ -22,6 +26,9 @@ public class Ball : MonoBehaviour
 
         // Initialiser le score à zéro
         Score = 0;
+
+        // Initialiser le nombre de vies
+        lives = initialLives;
     }
 
     void Update()
@@ -30,7 +37,7 @@ public class Ball : MonoBehaviour
         {
             // Si la touche espace est enfoncée et que la balle est en contact avec les palettes,
             // appliquer une force d'éjection vers le haut
-            rb.velocity += Vector2.up * speed * ejectorSpeed;
+            rb.velocity += Vector2.up * ejectorSpeed;
         }
     }
 
@@ -64,6 +71,11 @@ public class Ball : MonoBehaviour
             // Augmenter le score
             Score += targetPoints; // Ajouter les points de cible
         }
+        else if (collision.gameObject.CompareTag("DeathZone")) // Interaction avec la zone de mort
+        {
+            // Réduire une vie
+            LoseLife();
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
@@ -71,6 +83,25 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.CompareTag("Flipper")) // Quand la balle quitte la zone des palettes
         {
             isTouchingFlipper = false;
+        }
+    }
+
+    // Méthode pour réduire une vie
+    void LoseLife()
+    {
+        lives--;
+
+        // Si le joueur n'a plus de vies, relancer la scène ou effectuer une action de fin de jeu
+        if (lives <= 0)
+        {
+            // Vous pouvez ajouter d'autres actions ici, comme afficher un écran de fin de jeu
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Relancer la scène actuelle
+        }
+        else
+        {
+            // Réapparition de la balle au point de respawn
+            transform.position = respawnPoint.position;
+            rb.velocity = Vector2.zero; // Réinitialiser la vitesse de la balle
         }
     }
 }
