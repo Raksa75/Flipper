@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Ejector
   - Flipper
+  - Ball
   layers:
   - Default
   - TransparentFX

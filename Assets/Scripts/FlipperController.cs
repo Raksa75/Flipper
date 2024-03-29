@@ -3,51 +3,59 @@ using UnityEngine;
 public class FlipperController : MonoBehaviour
 {
     public KeyCode flipperKey = KeyCode.Space; // Touche pour activer le flipper
-    public float flipperAngle = 30f; // Angle de rotation du flipper
-    public float flipperSpeed = 1000f; // Vitesse de rotation du flipper
-    public float flipperRestitutionSpeed = 500f; // Vitesse de retour à la position d'origine
+    public float flipperStrength = 1000f; // Force de rotation du flipper
+    public float flipperReturnSpeed = 500f; // Vitesse de retour du flipper à sa position d'origine
+    public float maxRotation = 30f; // Angle maximum de rotation du flipper
+    public Rigidbody2D ball; // Référence à la balle
 
     private Quaternion initialRotation;
-    private Quaternion downRotation;
-    private bool flipping = false;
+    private bool isFlipping = false;
 
     void Start()
     {
         initialRotation = transform.rotation;
-        downRotation = Quaternion.Euler(Vector3.back * flipperAngle);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(flipperKey) && !flipping)
+        // Si la touche est enfoncée et le flipper n'est pas déjà en train de basculer
+        if (Input.GetKeyDown(flipperKey) && !isFlipping)
         {
-            flipping = true;
-            RotateFlipper();
+            Flip();
         }
     }
 
     void FixedUpdate()
     {
-        if (flipping)
+        // Si le flipper est en train de basculer
+        if (isFlipping)
         {
-            // Calculer la rotation actuelle et la rotation finale
-            Quaternion targetRotation = flipping ? downRotation : initialRotation;
-            Quaternion currentRotation = transform.rotation;
+            // Calculer la rotation cible en fonction de l'angle maximum
+            Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, initialRotation.eulerAngles.z + maxRotation);
 
-            // Interpoler entre la rotation actuelle et la rotation finale
-            Quaternion newRotation = Quaternion.RotateTowards(currentRotation, targetRotation, flipperSpeed * Time.fixedDeltaTime);
-            transform.rotation = newRotation;
+            // Faire tourner le flipper vers la rotation cible
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, flipperStrength * Time.fixedDeltaTime);
 
-            // Si la rotation a atteint la rotation finale, arrêter le flipper
-            if (Quaternion.Angle(newRotation, targetRotation) < 0.01f)
+            // Si le flipper a atteint l'angle maximum, arrêter de basculer
+            if (Quaternion.Angle(transform.rotation, targetRotation) < 0.01f)
             {
-                flipping = false;
+                isFlipping = false;
             }
+        }
+        else
+        {
+            // Si le flipper n'est pas en train de basculer, le ramener à sa position d'origine
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, initialRotation, flipperReturnSpeed * Time.fixedDeltaTime);
         }
     }
 
-    void RotateFlipper()
+    void Flip()
     {
-        flipping = true;
+        isFlipping = true;
+        if (ball != null)
+        {
+            // Appliquer une force à la balle dans la direction appropriée (vers le haut dans cet exemple)
+            //ball.AddForce(Vector2.up * flipperStrength);
+        }
     }
 }
