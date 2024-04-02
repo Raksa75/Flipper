@@ -18,11 +18,6 @@ public class LivesDisplay : MonoBehaviour
             // Mettre à jour le texte avec le nombre de vies initial
             UpdateLivesDisplay();
         }
-        else
-        {
-            // Afficher un message d'erreur si la référence à l'objet Ball est manquante
-            Debug.LogError("La référence à l'objet Ball est manquante !");
-        }
     }
 
     void Update()
