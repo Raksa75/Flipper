@@ -9,7 +9,7 @@ public class Ball : MonoBehaviour
 
     public int initialLives = 3; // Nombre de vies initial
     public Transform respawnPoint; // Point de réapparition de la balle
-    public int ejectorPoints = 100; // Points gagnés en touchant un ejector
+    public int ejectorPoints = 100; // Points gagnés en touchant un ejecteur
     public int targetPoints = 50; // Points gagnés en touchant une cible
 
     private Rigidbody2D rb;
@@ -18,17 +18,11 @@ public class Ball : MonoBehaviour
     private bool isTouchingFlipper = false; // Indique si la balle est en contact avec les palettes
     public int lives; // Nombre de vies restantes
 
-    // Score de la balle
-    public int Score { get; private set; }
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         // Appliquer une force initiale à la balle pour la faire bouger
         // rb.velocity = Vector2.up * speed;
-
-        // Initialiser le score à zéro
-        Score = 0;
 
         // Initialiser le nombre de vies
         lives = initialLives;
@@ -69,7 +63,7 @@ public class Ball : MonoBehaviour
             // Déclencher l'animation de l'ejector
 
             // Augmenter le score
-            Score += ejectorPoints; // Ajouter les points d'ejector
+            ScoreManager.AddToScore(ejectorPoints); // Ajouter les points d'ejector
         }
 
         else if (collision.gameObject.CompareTag("Target")) // Interaction avec les cibles
@@ -78,7 +72,7 @@ public class Ball : MonoBehaviour
             Destroy(collision.gameObject);
 
             // Augmenter le score
-            Score += targetPoints; // Ajouter les points de cible
+            ScoreManager.AddToScore(targetPoints);  // Ajouter les points de cible
         }
         else if (collision.gameObject.CompareTag("DeathZone")) // Interaction avec la zone de mort
         {
@@ -103,6 +97,10 @@ public class Ball : MonoBehaviour
         // Si le joueur n'a plus de vies, relancer la scène 
         if (lives <= 0)
         {
+            // Sauvegarder le score dans les PlayerPrefs
+            PlayerPrefs.SetInt("Score", ScoreManager.Score);
+            PlayerPrefs.Save();
+
             SceneManager.LoadScene("GameOver");
         }
         else
