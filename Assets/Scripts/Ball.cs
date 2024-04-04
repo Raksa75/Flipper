@@ -13,6 +13,8 @@ public class Ball : MonoBehaviour
     public int targetPoints = 50; // Points gagnés en touchant une cible
 
     private Rigidbody2D rb;
+    public Animator ejectorAnimator; //animation des ejector
+
     private bool isTouchingFlipper = false; // Indique si la balle est en contact avec les palettes
     public int lives; // Nombre de vies restantes
 
@@ -62,6 +64,12 @@ public class Ball : MonoBehaviour
             rb.velocity = (transform.position - collision.transform.position).normalized * speed * ejectorSpeed;
             Debug.Log("Ejection joué");
 
+            // Déclencher l'animation de l'ejector
+            /*if (ejectorAnimator != null)
+            {
+                ejectorAnimator.SetTrigger("TriggerEjection"); // Assurez-vous que "TriggerEjection" est le nom de votre déclencheur d'animation dans l'Animator Controller
+            } */
+
             // Augmenter le score
             Score += ejectorPoints; // Ajouter les points d'ejector
         }
@@ -96,7 +104,7 @@ public class Ball : MonoBehaviour
         // Si le joueur n'a plus de vies, relancer la scène 
         if (lives <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Relancer la scène actuelle
+            SceneManager.LoadScene("GameOver");
         }
         else
         {

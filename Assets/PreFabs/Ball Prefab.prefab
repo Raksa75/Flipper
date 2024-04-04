@@ -99,6 +99,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9993f07709d5a3941809f09420144f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  ejectorSpeed: 2
+  flipperSpeed: 2
+  initialLives: 3
+  respawnPoint: {fileID: 0}
+  ejectorPoints: 100
+  targetPoints: 50
+  ejectorAnimator: {fileID: 0}
+  lives: 0
 --- !u!50 &7429831492342257004
 Rigidbody2D:
   serializedVersion: 4
