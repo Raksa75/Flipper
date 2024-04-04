@@ -3262,7 +3262,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.2
-  m_PreviewTimeScale: 0
+  m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -5045,7 +5045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2802100646698290297, guid: 77cc7ce6f23fffc40b7512e99a2c678c, type: 3}
       propertyPath: speed
-      value: 6
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 2802100646698290297, guid: 77cc7ce6f23fffc40b7512e99a2c678c, type: 3}
       propertyPath: ejector
@@ -5065,11 +5065,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2802100646698290297, guid: 77cc7ce6f23fffc40b7512e99a2c678c, type: 3}
       propertyPath: ejectorSpeed
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2802100646698290297, guid: 77cc7ce6f23fffc40b7512e99a2c678c, type: 3}
       propertyPath: flipperSpeed
-      value: 1.8
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 2802100646698290297, guid: 77cc7ce6f23fffc40b7512e99a2c678c, type: 3}
       propertyPath: respawnPoint

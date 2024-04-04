@@ -33,7 +33,7 @@ public class FlipperController : MonoBehaviour
             // Calculer la rotation cible en fonction de l'angle maximum
             Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, initialRotation.eulerAngles.z + maxRotation);
 
-            // Faire tourner le flipper vers la rotation cible
+            // Faire tourner le flipper vers la rotation cible en utilisant Time.fixedDeltaTime
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, flipperStrength * Time.fixedDeltaTime);
 
             // Si le flipper a atteint l'angle maximum, arrêter de basculer
@@ -44,7 +44,7 @@ public class FlipperController : MonoBehaviour
         }
         else
         {
-            // Si le flipper n'est pas en train de basculer, le ramener à sa position d'origine
+            // Si le flipper n'est pas en train de basculer, le ramener à sa position d'origine en utilisant Time.fixedDeltaTime
             transform.rotation = Quaternion.RotateTowards(transform.rotation, initialRotation, flipperReturnSpeed * Time.fixedDeltaTime);
         }
     }

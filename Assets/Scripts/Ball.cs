@@ -34,13 +34,12 @@ public class Ball : MonoBehaviour
         lives = initialLives;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isTouchingFlipper && Input.GetKey(KeyCode.Space))
         {
-            // Si la touche espace est enfoncée et que la balle est en contact avec les palettes,
-            // appliquer une force d'éjection vers le haut
-            rb.velocity += Vector2.up * flipperSpeed;
+            // Appliquer une force d'éjection vers le haut
+            rb.velocity += Vector2.up * flipperSpeed * Time.fixedDeltaTime;
         }
     }
 
@@ -58,21 +57,21 @@ public class Ball : MonoBehaviour
                 isTouchingFlipper = true;
             }
         }
-        else if (collision.gameObject.CompareTag("Ejector")) // Interaction avec l'éjecteur
+
+        else if (collision.gameObject.CompareTag("Ejector"))
         {
-            // Si la balle touche un cercle d'éjection, lui donner une force d'éjection
-            rb.velocity = (transform.position - collision.transform.position).normalized * speed * ejectorSpeed;
+            // Calculer la direction de l'éjection
+            Vector2 direction = (transform.position - collision.transform.position).normalized;
+            // Appliquer une force d'éjection en utilisant Time.fixedDeltaTime
+            rb.velocity = direction * speed * ejectorSpeed * Time.fixedDeltaTime;
             Debug.Log("Ejection joué");
 
             // Déclencher l'animation de l'ejector
-            /*if (ejectorAnimator != null)
-            {
-                ejectorAnimator.SetTrigger("TriggerEjection"); // Assurez-vous que "TriggerEjection" est le nom de votre déclencheur d'animation dans l'Animator Controller
-            } */
 
             // Augmenter le score
             Score += ejectorPoints; // Ajouter les points d'ejector
         }
+
         else if (collision.gameObject.CompareTag("Target")) // Interaction avec les cibles
         {
             // Détruire la cible
